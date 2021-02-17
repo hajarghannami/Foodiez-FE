@@ -17,43 +17,19 @@ export const fetchIngredients = () => {
   };
 };
 
-// export const deleteProduct = (productId) => async (dispatch) => {
-//   try {
-//     await instance.delete(`/products/${productId}`);
-//     dispatch({
-//       type: types.DELETE_PRODUCT,
-//       payload: { productId },
-//     });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-// export const createProduct = (newProduct) => async (dispatch) => {
-//   try {
-//     const formData = new FormData();
-//     for (const key in newProduct) formData.append(key, newProduct[key]);
-//     const res = await instance.post("/products", formData);
-//     dispatch({
-//       type: types.CREATE_PRODUCT,
-//       payload: { newProduct: res.data },
-//     });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-// export const updateProduct = (updatedProduct) => async (dispatch) => {
-//   try {
-//     const formData = new FormData();
-//     for (const key in updatedProduct) formData.append(key, updatedProduct[key]);
-//     const res = await instance.put(`/products/${updatedProduct.id}`, formData);
-
-//     dispatch({
-//       type: types.UPDATE_PRODUCT,
-//       payload: { updatedProduct: res.data },
-//     });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+export const createIngredient = (newIngredient) => async (dispatch) => {
+  try {
+    const formData = new FormData();
+    for (const key in newIngredient) formData.append(key, newIngredient[key]);
+    const res = await instance.post(
+      `/categories/${newIngredient.categoryId}/ingredients`,
+      formData
+    );
+    dispatch({
+      type: types.CREATE_INGREDIENT,
+      payload: { newIngredient: res.data },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};

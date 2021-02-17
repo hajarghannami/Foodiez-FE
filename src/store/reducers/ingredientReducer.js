@@ -2,6 +2,7 @@ import * as types from "../actions/types";
 
 const initialState = {
   ingredients: [],
+  loading: true,
 };
 
 const ingredientReducer = (state = initialState, action) => {
@@ -10,28 +11,15 @@ const ingredientReducer = (state = initialState, action) => {
       return {
         ...state,
         ingredients: action.payload,
+        loading: false,
       };
-    //   case "DELETE_PRODUCT":
-    //     return {
-    //       ...state,
-    //       products: state.products.filter(
-    //         (product) => product.id !== action.payload.productId
-    //       ),
-    //     };
-    //   case "CREATE_PRODUCT":
-    //     return {
-    //       ...state,
-    //       products: [...state.products, action.payload.newProduct],
-    //     };
-    //   case "UPDATE_PRODUCT":
-    //     return {
-    //       ...state,
-    //       products: state.products.map((product) => {
-    //         if (action.payload.updatedProduct.id === product.id)
-    //           return action.payload.updatedProduct;
-    //         else return product;
-    //       }),
-    //     };
+
+    case types.CREATE_INGREDIENT:
+      return {
+        ...state,
+        ingredients: [...state.ingredients, action.payload.newIngredient],
+      };
+
     default:
       return state;
   }

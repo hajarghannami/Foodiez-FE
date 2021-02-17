@@ -1,11 +1,14 @@
 import { CategoryItemImage } from "../styles";
+import { Link } from "react-router-dom";
 
 const CategoryItem = ({ category }) => {
   return (
-    <div>
+    <>
       <h3>{category.name}</h3>
-      <CategoryItemImage src={category.image} alt={category.name} />
-    </div>
+      <Link to={`/categories/${category.slug}`}>
+        <CategoryItemImage src={category.image} alt={category.name} />
+      </Link>
+    </>
   );
 };
 

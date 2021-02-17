@@ -2,6 +2,7 @@ import * as types from "../actions/types";
 
 const initialState = {
   categories: [],
+  loading: true,
 };
 
 const categoryReducer = (state = initialState, action) => {
@@ -10,7 +11,14 @@ const categoryReducer = (state = initialState, action) => {
       return {
         ...state,
         categories: action.payload,
+        loading: false,
       };
+    case types.CREATE_CATEGORY:
+      return {
+        ...state,
+        categories: [...state.categories, action.payload.newCategory],
+      };
+
     //   case "DELETE_PRODUCT":
     //     return {
     //       ...state,
@@ -18,11 +26,7 @@ const categoryReducer = (state = initialState, action) => {
     //         (product) => product.id !== action.payload.productId
     //       ),
     //     };
-    //   case "CREATE_PRODUCT":
-    //     return {
-    //       ...state,
-    //       products: [...state.products, action.payload.newProduct],
-    //     };
+
     //   case "UPDATE_PRODUCT":
     //     return {
     //       ...state,
