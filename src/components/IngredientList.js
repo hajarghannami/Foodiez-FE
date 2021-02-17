@@ -8,18 +8,20 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import Loading from "./Loading";
 
-const IngredientList = ({ ingredients }) => {
+const IngredientList = ({ categoryId }) => {
   const [query, setQuery] = useState("");
   const loading = useSelector((state) => state.ingredientReducer.loading);
-
+  const ingredients = useSelector(
+    (state) => state.ingredientReducer.ingredients
+  );
   if (loading)
     return (
       <ListWrapper>
         <Loading />
       </ListWrapper>
     );
-  console.log(ingredients);
   const ingredientList = ingredients
+    .filter((ingredient) => ingredient.categoryId === categoryId)
     .filter((ingredient) =>
       ingredient.name.toLowerCase().includes(query.toLowerCase())
     )

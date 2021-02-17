@@ -18,24 +18,6 @@ const categoryReducer = (state = initialState, action) => {
         ...state,
         categories: [...state.categories, action.payload.newCategory],
       };
-
-    //   case "DELETE_PRODUCT":
-    //     return {
-    //       ...state,
-    //       products: state.products.filter(
-    //         (product) => product.id !== action.payload.productId
-    //       ),
-    //     };
-
-    //   case "UPDATE_PRODUCT":
-    //     return {
-    //       ...state,
-    //       products: state.products.map((product) => {
-    //         if (action.payload.updatedProduct.id === product.id)
-    //           return action.payload.updatedProduct;
-    //         else return product;
-    //       }),
-    //     };
     default:
       return state;
   }

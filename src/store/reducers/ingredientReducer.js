@@ -15,9 +15,15 @@ const ingredientReducer = (state = initialState, action) => {
       };
 
     case types.CREATE_INGREDIENT:
+      const { newIngredient } = action.payload;
+      console.log(
+        "🚀 ~ file: ingredientReducer.js ~ line 19 ~ ingredientReducer ~ newIngredient",
+        newIngredient
+      );
+
       return {
         ...state,
-        ingredients: [...state.ingredients, action.payload.newIngredient],
+        ingredients: [...state.ingredients, newIngredient],
       };
 
     default:

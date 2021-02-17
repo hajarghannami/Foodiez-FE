@@ -11,9 +11,9 @@ const CategoryDetail = () => {
   const { categorySlug } = useParams();
   const loading = useSelector((state) => state.categoryReducer.loading);
 
-  const allIngredients = useSelector(
-    (state) => state.ingredientReducer.ingredients
-  );
+  // const allIngredients = useSelector(
+  //   (state) => state.ingredientReducer.ingredients
+  // );
 
   const category = useSelector((state) =>
     state.categoryReducer.categories.find(
@@ -28,10 +28,10 @@ const CategoryDetail = () => {
       </ListWrapper>
     );
 
-  console.log(categorySlug);
-  const ingredients = category.ingredients.map((ingredient) =>
-    allIngredients.find((_ingredient) => _ingredient.id === ingredient.id)
-  );
+  console.log(category.ingredients);
+  // const ingredients = category.ingredients.map((ingredient) =>
+  //   allIngredients.find((_ingredient) => _ingredient.id === ingredient.id)
+  // );
 
   return !category ? (
     <Redirect to="/categories" />
@@ -45,7 +45,7 @@ const CategoryDetail = () => {
         <h1>{category.name}</h1>
         <img src={category.image} alt={category.name} />
       </DetailWrapper>
-      <IngredientList ingredients={ingredients} />
+      <IngredientList categoryId={category.id} />
       <Link to={`/categories/${category.id}/ingredients/new`}>
         Add new Ingredient
       </Link>

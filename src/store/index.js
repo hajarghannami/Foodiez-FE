@@ -3,6 +3,7 @@ import thunk from "redux-thunk";
 
 import { fetchCategories } from "./actions/categoryActions";
 import { fetchIngredients } from "./actions/ingredientActions";
+import { fetchRecipes } from "./actions/recipeActions";
 
 import rootReducer from "./reducers";
 
@@ -15,5 +16,6 @@ const store = createStore(
 
 store.dispatch(fetchCategories());
 store.dispatch(fetchIngredients());
+store.dispatch(fetchRecipes());
 
 export default store;
