@@ -1,13 +1,10 @@
-import logo from "./logo.svg";
 import "./App.css";
 import CategoryList from "./components/CategoryList";
+import { Route, Switch } from "react-router";
 
 function App() {
   return (
     <Switch>
-      <Route exact path="/">
-        <Home />
-      </Route>
       <Route path="/categories">
         <CategoryList />
       </Route>
