@@ -15,14 +15,6 @@ const Routes = () => {
 
   return (
     <Switch>
-      <Route exact path="/">
-        <Link to="/categories">
-          <h1> Categories</h1>
-        </Link>
-        <Link to="/recipes">
-          <h1> Recipes </h1>
-        </Link>
-      </Route>
       <Route path="/categories/new">
         <CategoryForm />
       </Route>

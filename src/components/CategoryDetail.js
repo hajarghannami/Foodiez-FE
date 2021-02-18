@@ -28,7 +28,6 @@ const CategoryDetail = () => {
       </ListWrapper>
     );
 
-  console.log(category.ingredients);
   // const ingredients = category.ingredients.map((ingredient) =>
   //   allIngredients.find((_ingredient) => _ingredient.id === ingredient.id)
   // );
