@@ -4,10 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { Title } from "../styles";
 
-const IngredientForm = () => {
+const IngredientForm = ({ categorySlug }) => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const categories = useSelector((state) => state.categoryReducer.categories);
   const { categoryId } = useParams();
+
   const [ingredient, setIngredient] = useState({
     categoryId: categoryId,
     name: "",
@@ -31,7 +33,9 @@ const IngredientForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     dispatch(createIngredient(ingredient));
-    history.push("/categories/");
+    // const category = categories.find((category) => category.id === categoryId);
+    // console.log(category, categoryId);
+    history.push(`/categories/${categorySlug}`);
   };
 
   return (

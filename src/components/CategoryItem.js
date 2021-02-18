@@ -3,12 +3,20 @@ import { Link } from "react-router-dom";
 
 const CategoryItem = ({ category }) => {
   return (
-    <>
-      <h3>{category.name}</h3>
-      <Link to={`/categories/${category.slug}`}>
-        <CategoryItemImage src={category.image} alt={category.name} />
-      </Link>
-    </>
+    <div className="col">
+      <div className="card" style={{ width: 18 + "rem" }}>
+        <Link to={`/categories/${category.slug}`}>
+          <img
+            src={category.image}
+            alt={category.name}
+            className="card-img-top"
+          />
+        </Link>
+        <div className="card-body">
+          <p className="card-text">{category.name}</p>
+        </div>
+      </div>
+    </div>
   );
 };
 

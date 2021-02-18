@@ -1,4 +1,4 @@
-import { DetailWrapper, ListWrapper } from "../styles";
+import { DetailWrapper, ListWrapper, Title } from "../styles";
 import { Link, Redirect, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { useSelector } from "react-redux";
@@ -37,18 +37,17 @@ const CategoryDetail = () => {
     <Redirect to="/categories" />
   ) : (
     <>
-      <DetailWrapper>
-        <Helmet>
-          <title>{category.name}</title>
-          <meta name="description" content={category.name} />
-        </Helmet>
-        <h1>{category.name}</h1>
-        <img src={category.image} alt={category.name} />
-      </DetailWrapper>
-      <IngredientList categoryId={category.id} />
-      <Link to={`/categories/${category.id}/ingredients/new`}>
-        Add new Ingredient
-      </Link>
+      <Helmet>
+        <title>{category.name}</title>
+        <meta name="description" content={category.name} />
+      </Helmet>
+      <h1>{category.name}</h1>
+      <div className="container">
+        <Link to={`/categories/${category.id}/ingredients/new`}>
+          <BsPlusSquare />
+        </Link>
+        <IngredientList categoryId={category.id} />
+      </div>
     </>
   );
 };

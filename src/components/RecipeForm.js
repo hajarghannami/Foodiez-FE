@@ -27,13 +27,22 @@ const RecipeForm = () => {
   };
 
   const handleClick = (event) => {
-    setIngredients([...ingredients, +event.target.value]);
+    let _ingredient = _ingredients.find(
+      (ingredient) => ingredient.id === +event.target.value
+    );
+    ingredients.some((ingredient) => ingredient.id === +event.target.value)
+      ? setIngredients([
+          ...ingredients.filter(
+            (ingredient) => ingredient.id !== +event.target.value
+          ),
+        ])
+      : setIngredients([...ingredients, _ingredient]);
   };
 
   const ingredientList = _ingredients.map((ingredient) => (
     <button
       type="button"
-      key={ingredient.id}
+      class="btn btn-primary"
       value={ingredient.id}
       onClick={handleClick}
     >
@@ -71,8 +80,3 @@ const RecipeForm = () => {
 };
 
 export default RecipeForm;
-
-//create recipe with default value after clicking one image and receive the id
-//collect all ingredient Ids
-// use Recipe_Ingredients to give new id and ingredient ids
-// change recipe name from default value

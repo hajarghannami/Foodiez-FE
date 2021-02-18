@@ -30,9 +30,9 @@ const IngredientList = ({ categoryId }) => {
     ));
 
   return (
-    <div>
+    <div className="container">
       <SearchBar setQuery={setQuery} />
-      <ListWrapper>{ingredientList}</ListWrapper>
+      <div className="row">{ingredientList}</div>
     </div>
   );
 };
