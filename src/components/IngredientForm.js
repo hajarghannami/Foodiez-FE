@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createIngredient } from "../store/actions/ingredientActions";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams, Link } from "react-router-dom";
 import { Title } from "../styles";
 import Fuse from "fuse.js";
 
@@ -9,23 +9,41 @@ const IngredientForm = ({ categorySlug }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categoryReducer.categories);
-  // const ingredients = useSelector((state) => state.categoryReducer.ingredients);
+  const ingredients = useSelector(
+    (state) => state.ingredientReducer.ingredients
+  );
   const { categoryId } = useParams();
-
+  const options = {
+    shouldSort: true,
+    location: 0,
+    threshold: 0.8,
+    keys: ["name"],
+  };
   const [ingredient, setIngredient] = useState({
     categoryId: categoryId,
     name: "",
     image: "",
   });
 
-  const fuse = new Fuse(categories, {
-    key: ["name", "ingredients.name"],
+  const fuse = new Fuse(ingredients, {
+    keys: ["name"],
   });
-
+  let result;
+  if (ingredient.name.length > 2) result = fuse.search(ingredient.name);
+  let similarI = [];
+  let similarC = [];
+  for (const i in result) {
+    similarI[i] = result[i].item.name;
+    similarC[i] = categories.find((category) =>
+      category.ingredients.some(
+        (ingredient) => ingredient.name === result[i].item.name
+      )
+    );
+  }
   const handleChange = (event) => {
     setIngredient({
       ...ingredient,
-      [event.target.name]: [event.target.value],
+      [event.target.name]: event.target.value,
     });
   };
 
@@ -39,19 +57,23 @@ const IngredientForm = ({ categorySlug }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     dispatch(createIngredient(ingredient));
-    // const category = categories.find((category) => category.id === categoryId);
-    // console.log(category, categoryId);
     history.push(`/categories/${categorySlug}`);
   };
-
-  const similar = fuse.search("blueberries", 10);
-  console.log(similar);
   return (
     <>
-      <h1>{similar}</h1>
-
       <form onSubmit={handleSubmit}>
         <Title> {"New Ingredient"} </Title>
+        <p>
+          {similarI[0]
+            ? `Are you looking for ${similarI[0]}? You can find ${
+                similarI[0].endsWith("s") ? "them" : "it"
+              } in following
+          category: `
+            : ""}
+          <Link to={`/categories/${similarC[0] ? similarC[0].slug : ""}`}>
+            {similarC[0] ? similarC[0].name : ""}
+          </Link>
+        </p>
         <div className="form-group">
           <label>Name</label>
           <input

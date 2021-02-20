@@ -6,12 +6,12 @@ import RecipeItem from "./RecipeItem";
 import Loading from "./Loading";
 import { BsPlusSquare } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import SearchBar from "./SearchBar";
 import { useState } from "react";
+import Select from "react-select";
 
 const RecipeList = () => {
-  const [query, setQuery] = useState("");
-  // const [allergies, setAllergies] = useState([]);
+  const [allergies, setAllergies] = useState([]);
+  const [options, setOptions] = useState(null);
   let recipes = useSelector((state) => state.recipeReducer.recipes);
   const loading = useSelector((state) => state.recipeReducer.loading);
   const ingredients = useSelector(
@@ -25,54 +25,75 @@ const RecipeList = () => {
       </ListWrapper>
     );
 
-  // const handleClick = (event) => {
-  //   allergies.includes(event.target.name)
-  //     ? setAllergies([
-  //         ...allergies.filter((allergy) => allergy.name !== event.target.value),
-  //       ])
-  //     : setAllergies([...allergies, event.target.value]);
-  // };
+  const _options = ingredients.map((ingredient) => {
+    return { value: ingredient.name, label: ingredient.name };
+  });
 
-  // const ingredientList = ingredients.map((ingredient) => (
-  //   <button
-  //     type="button"
-  //     style={{ fontSize: 0.8 + "rem" }}
-  //     class="btn btn-primary"
-  //     value={ingredient.name}
-  //     onClick={handleClick}
-  //   >
-  //     {ingredient.name}
-  //   </button>
-  // ));
+  const handleClick = (event) => {
+    allergies.includes(event.target.value)
+      ? setAllergies([
+          ...allergies.filter((allergy) => allergy !== event.target.value),
+        ])
+      : setAllergies([...allergies, event.target.value]);
+  };
 
-  // if (allergies.length) {
-  //   recipes = allergies.map((allergy) =>
-  //     recipes.filter((recipe) =>
-  //       recipe.ingredients.find(
-  //         (ingredient) => !ingredient.name.includes(allergy)
-  //       )
-  //     )
-  //   );
-  // }
-  console.log(recipes);
-  const recipeList = recipes
-    .filter((recipe) =>
-      recipe.ingredients.find((ingredient) =>
-        ingredient.name.toLowerCase().includes(query.toLowerCase())
-      )
-    )
-    .map((recipe) => <RecipeItem recipe={recipe} key={recipe.id} />);
+  const ingredientList = ingredients.map((ingredient) => (
+    <button
+      type="button"
+      style={{ fontSize: 0.8 + "rem" }}
+      className={`btn btn-${
+        allergies.some((allergy) => allergy == ingredient.name)
+          ? "danger"
+          : "success"
+      }`}
+      value={ingredient.name}
+      onClick={handleClick}
+    >
+      {ingredient.name}
+    </button>
+  ));
+
+  for (const allergy of allergies) {
+    recipes = recipes.filter(
+      (recipe) =>
+        !recipe.ingredients.find((ingredient) => ingredient.name === allergy)
+    );
+  }
+  if (options) {
+    for (const option of options) {
+      recipes = recipes.filter((recipe) =>
+        recipe.ingredients.find(
+          (ingredient) => ingredient.name === option.value
+        )
+      );
+    }
+  }
+  const handleChange = (selectedOption) => {
+    setOptions(selectedOption);
+    console.log(`Option selected:`, selectedOption);
+  };
+
+  const recipeList = recipes.map((recipe) => (
+    <RecipeItem recipe={recipe} key={recipe.id} />
+  ));
 
   return (
-    <div className="container">
-      <Title>Recipes</Title>
-      {/* Allergies? {ingredientList} */}
-      <SearchBar setQuery={setQuery} />
-      <div className="row">{recipeList}</div>
-      <Link to={`/recipes/new`}>
-        <BsPlusSquare />
-      </Link>
-    </div>
+    <>
+      <div className="container">
+        <Title>Recipes</Title>
+        Allergies? {ingredientList}
+        <Select
+          isMulti={true}
+          value={options}
+          onChange={handleChange}
+          options={_options}
+        />
+        <div className="row">{recipeList}</div>
+        <Link to={`/recipes/new`}>
+          <BsPlusSquare />
+        </Link>
+      </div>
+    </>
   );
 };
 

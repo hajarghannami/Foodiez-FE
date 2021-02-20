@@ -11,4 +11,4 @@ function App() {
 
 export default App;
 
-//react-helmet react-icons @agney/react-loading
+//yarn add react-helmet react-icons @agney/react-loading react-select fuse.js

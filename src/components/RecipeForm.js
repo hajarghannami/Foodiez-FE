@@ -42,7 +42,11 @@ const RecipeForm = () => {
   const ingredientList = _ingredients.map((ingredient) => (
     <button
       type="button"
-      class="btn btn-primary"
+      className={`btn btn-${
+        ingredients.some((_ingredient) => _ingredient.id == ingredient.id)
+          ? "primary"
+          : "success"
+      }`}
       value={ingredient.id}
       onClick={handleClick}
     >
